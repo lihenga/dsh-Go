@@ -1,0 +1,26 @@
+
+name: Sync Fork from Upstream
+
+on:
+  schedule:
+    # 每天 UTC 02:00 执行
+    - cron: '0 2 * * *'
+
+  # 支持手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Sync fork
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh repo sync "$GITHUB_REPOSITORY" \
+            --source ccch1mneyyy/dsh-Go \
+            --branch main
